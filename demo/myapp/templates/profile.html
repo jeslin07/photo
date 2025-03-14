@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome - Photography Website{% endblock %}
+
+{% block content %}
+  <!-- Alpine.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+  <section id="welcome" style="padding: 6rem 0; text-align: center; background-color: #f9fafb;" x-data="{ isVisible: false }" x-init="setTimeout(() => isVisible = true, 100)">
+    <div style="max-width: 56rem; margin: 0 auto; padding: 0 1rem;">
+      <!-- Welcome Message -->
+      <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: #1a202c;" 
+          x-show="isVisible" 
+          x-transition:enter="transition ease-out duration-1000" 
+          x-transition:enter-start="opacity-0 transform translate-y-4" 
+          x-transition:enter-end="opacity-100 transform translate-y-0">
+        Welcome, {{ user.username }}!
+      </h1>
+      <p style="font-size: 1.25rem; color: #666; margin-bottom: 2rem;" 
+         x-show="isVisible" 
+         x-transition:enter="transition ease-out duration-1000 delay-200" 
+         x-transition:enter-start="opacity-0 transform translate-y-4" 
+         x-transition:enter-end="opacity-100 transform translate-y-0">
+        Thank you for logging in. We're glad to have you here.
+      </p>
+
+      <!-- User Profile Card -->
+      <div style="background-color: white; border-radius: 0.75rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); padding: 2rem; text-align: left;" 
+           x-show="isVisible" 
+           x-transition:enter="transition ease-out duration-1000 delay-400" 
+           x-transition:enter-start="opacity-0 transform translate-y-4" 
+           x-transition:enter-end="opacity-100 transform translate-y-0">
+        <h2 style="font-size: 1.5rem; font-weight: 600; color: #1e3a8a; margin-bottom: 1.5rem;">Your Profile</h2>
+        
+        <!-- Profile Details -->
+        <div style="margin-bottom: 1.5rem;">
+          <p style="font-size: 1rem; color: #4b5563; margin-bottom: 0.5rem;"><strong>Username:</strong> {{ user.username }}</p>
+          <p style="font-size: 1rem; color: #4b5563; margin-bottom: 0.5rem;"><strong>Email:</strong> {{ user.email }}</p>
+          <p style="font-size: 1rem; color: #4b5563; margin-bottom: 0.5rem;"><strong>Joined:</strong> {{ user.date_joined|date:"F d, Y" }}</p>
+        </div>
+
+        <!-- Edit Profile Button -->
+        <button style="background-color: #3b82f6; color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s;" 
+                @mouseover="this.style.backgroundColor='#2563eb'" 
+                @mouseout="this.style.backgroundColor='#3b82f6'">
+          Edit Profile
+        </button>
+      </div>
+
+      <!-- Recent Activity Section -->
+      <div style="margin-top: 3rem;">
+        <h2 style="font-size: 1.5rem; font-weight: 600; color: #1e3a8a; margin-bottom: 1.5rem;" 
+            x-show="isVisible" 
+            x-transition:enter="transition ease-out duration-1000 delay-800" 
+            x-transition:enter-start="opacity-0 transform translate-y-4" 
+            x-transition:enter-end="opacity-100 transform translate-y-0">
+          Recent Activity
+        </h2>
+        
+        <!-- Activity Cards -->
+        <div style="display: grid; gap: 1.5rem;">
+          <!-- Example Activity 1 -->
+          <div style="background-color: white; border-radius: 0.75rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); padding: 1.5rem;" 
+               x-show="isVisible" 
+               x-transition:enter="transition ease-out duration-1000 delay-1000" 
+               x-transition:enter-start="opacity-0 transform translate-y-4" 
+               x-transition:enter-end="opacity-100 transform translate-y-0">
+            <p style="font-size: 1rem; color: #4b5563; margin-bottom: 0.5rem;"><strong>Uploaded a Photo:</strong> Sunset at the Beach</p>
+            <p style="font-size: 0.875rem; color: #666;">2 days ago</p>
+          </div>
+
+          <!-- Example Activity 2 -->
+          <div style="background-color: white; border-radius: 0.75rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); padding: 1.5rem;" 
+               x-show="isVisible" 
+               x-transition:enter="transition ease-out duration-1000 delay-1200" 
+               x-transition:enter-start="opacity-0 transform translate-y-4" 
+               x-transition:enter-end="opacity-100 transform translate-y-0">
+            <p style="font-size: 1rem; color: #4b5563; margin-bottom: 0.5rem;"><strong>Commented on:</strong> "Beautiful Wedding Moments"</p>
+            <p style="font-size: 0.875rem; color: #666;">5 days ago</p>
+          </div>
+
+          <!-- Example Activity 3 -->
+          <div style="background-color: white; border-radius: 0.75rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); padding: 1.5rem;" 
+               x-show="isVisible" 
+               x-transition:enter="transition ease-out duration-1000 delay-1400" 
+               x-transition:enter-start="opacity-0 transform translate-y-4" 
+               x-transition:enter-end="opacity-100 transform translate-y-0">
+            <p style="font-size: 1rem; color: #4b5563; margin-bottom: 0.5rem;"><strong>Liked:</strong> "Golden Hour Portraits"</p>
+            <p style="font-size: 0.875rem; color: #666;">1 week ago</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

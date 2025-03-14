@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Payment - Photography Website{% endblock %}
+
+{% block content %}
+  <section id="payment" style="padding: 6rem 0; text-align: center; background-color: #f9fafb;">
+    <div style="max-width: 56rem; margin: 0 auto; padding: 0 1rem;">
+      <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: #1a202c;">
+        Payment
+      </h1>
+      
+      <!-- Payment Form -->
+      <div style="background-color: white; border-radius: 0.75rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); padding: 1.5rem; text-align: left;">
+        <h2 style="font-size: 1.25rem; font-weight: 600; color: #1e3a8a; margin-bottom: 1.5rem;">
+          Enter Payment Details
+        </h2>
+        
+        <!-- Card Details -->
+        <form>
+          <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; font-size: 0.875rem; font-weight: 500; color: #4b5563; margin-bottom: 0.5rem;">
+              Card Number
+            </label>
+            <input type="text" placeholder="1234 5678 9012 3456" style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; font-size: 0.875rem;">
+          </div>
+          
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 1.5rem;">
+            <div>
+              <label style="display: block; font-size: 0.875rem; font-weight: 500; color: #4b5563; margin-bottom: 0.5rem;">
+                Expiration Date
+              </label>
+              <input type="text" placeholder="MM/YY" style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; font-size: 0.875rem;">
+            </div>
+            
+            <div>
+              <label style="display: block; font-size: 0.875rem; font-weight: 500; color: #4b5563; margin-bottom: 0.5rem;">
+                CVV
+              </label>
+              <input type="text" placeholder="123" style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; font-size: 0.875rem;">
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; font-size: 0.875rem; font-weight: 500; color: #4b5563; margin-bottom: 0.5rem;">
+              Cardholder Name
+            </label>
+            <input type="text" placeholder="John Doe" style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; font-size: 0.875rem;">
+          </div>
+          
+          <!-- Submit Button -->
+          <button type="submit" style="background-color: #3b82f6; color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s; width: 100%;">
+            Pay Now
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+{% endblock %}

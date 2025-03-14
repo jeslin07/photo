@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - Photography Website{% endblock %}
+
+{% block content %}
+  <section id="register" style="padding: 6rem 0; background: linear-gradient(135deg, #f9fafb, #f3f4f6);">
+    <div style="max-width: 28rem; margin: 0 auto; padding: 0 1rem;">
+      <div style="background-color: white; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); padding: 2.5rem;">
+        <!-- Beautiful Heading -->
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <h1 style="font-size: 2.5rem; font-weight: 700; color: #1a1a1a; text-transform: uppercase; letter-spacing: 2px; background: linear-gradient(135deg, #3b82f6, #9333ea); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            Photostudio
+          </h1>
+        </div>
+
+        <!-- Heading -->
+        <h2 style="font-size: 1.75rem; font-weight: 700; text-align: center; margin-bottom: 1.5rem; color: #1a1a1a;">
+          Create Your Account
+        </h2>
+
+        <!-- Form -->
+        <form method="post" style="display: flex; flex-direction: column; gap: 1.25rem;">
+          {% csrf_token %}
+          
+          <!-- Username Field -->
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <label for="id_username" style="font-weight: 500; color: #4a5568; font-size: 0.875rem;">Username</label>
+            <input
+              type="text"
+              name="username"
+              id="id_username"
+              required
+              style="padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.875rem; outline: none; transition: border-color 0.2s;"
+              placeholder="Enter your username"
+            >
+          </div>
+
+          <!-- Password Field -->
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <label for="id_password" style="font-weight: 500; color: #4a5568; font-size: 0.875rem;">Password</label>
+            <input
+              type="password"
+              name="password"
+              id="id_password"
+              required
+              style="padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.875rem; outline: none; transition: border-color 0.2s;"
+              placeholder="Enter your password"
+            >
+          </div>
+
+          <!-- Confirm Password Field -->
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <label for="id_confirm_password" style="font-weight: 500; color: #4a5568; font-size: 0.875rem;">Re-enter Password</label>
+            <input
+              type="password"
+              name="confirm_password"
+              id="id_confirm_password"
+              required
+              style="padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.875rem; outline: none; transition: border-color 0.2s;"
+              placeholder="Re-enter your password"
+            >
+            <small id="password-error" style="color: #ef4444; font-size: 0.75rem; display: none;">
+              Passwords must match and be at least 8 characters long with a number.
+            </small>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            style="width: 100%; background-color: #3b82f6; color: white; padding: 0.75rem; border-radius: 0.5rem; border: none; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s;"
+            onmouseover="this.style.backgroundColor='#2563eb'"
+            onmouseout="this.style.backgroundColor='#3b82f6'"
+          >
+            Register
+          </button>
+        </form>
+
+        <!-- Login Link -->
+        <div style="text-align: center; margin-top: 1.5rem; font-size: 0.875rem; color: #4a5568;">
+          Already have an account? <a href="#" style="color: #3b82f6; text-decoration: none; font-weight: 500;">Log in</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Script for Password Validation -->
+  <script>
+    document.querySelector("form").addEventListener("submit", function(event) {
+      var password = document.getElementById("id_password").value;
+      var confirmPassword = document.getElementById("id_confirm_password").value;
+      var errorMsg = document.getElementById("password-error");
+      var regex = /^(?=.*\d).{8,}$/;
+      
+      if (!regex.test(password) || password !== confirmPassword) {
+        errorMsg.style.display = "block";
+        event.preventDefault();
+      } else {
+        errorMsg.style.display = "none";
+      }
+    });
+  </script>
+{% endblock %}

@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}PhotoStudio - Wedding Photography{% endblock %}</title>
+  
+  <!-- AOS CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f3f4f6;
+      margin: 0;
+      padding: 0;
+      color: #1a202c;
+    }
+    .shadow-lg {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    .rounded-lg {
+      border-radius: 0.5rem;
+    }
+    .overflow-hidden {
+      overflow: hidden;
+    }
+    .object-cover {
+      object-fit: cover;
+    }
+    .hover\:bg-blue-700:hover {
+      background-color: #1d4ed8;
+    }
+    .hover\:text-gray-900:hover {
+      color: #1a202c;
+    }
+    .login-button, .register-button, .logout-button, .profile-button {
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .login-button {
+      background-color: #2563eb;
+    }
+    .login-button:hover {
+      background-color: #1d4ed8;
+    }
+    .register-button {
+      background-color: #10b981;
+    }
+    .register-button:hover {
+      background-color: #0d9f6e;
+    }
+    .logout-button {
+      background-color: #ef4444;
+    }
+    .logout-button:hover {
+      background-color: #dc2626;
+    }
+    .profile-button {
+      background-color: #2563eb;
+    }
+    .profile-button:hover {
+      background-color: #1d4ed8;
+    }
+    .messages {
+      text-align: center;
+      padding: 1rem;
+    }
+    .messages div {
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border-radius: 0.5rem;
+      color: white;
+    }
+    .messages .success {
+      background-color: #10b981;
+    }
+    .messages .error {
+      background-color: #ef4444;
+    }
+    
+    /* New styles for wedding photography */
+    /* Hero Section with Background Image */
+    .hero-section {
+      position: relative;
+      height: 500px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url('https://images.pexels.com/photos/2387793/pexels-photo-2387793.jpeg?auto=compress&cs=tinysrgb&w=600'); /* Add your image URL here */
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 10; /* Ensure text is above the overlay */
+      text-align: center;
+      max-width: 800px;
+      padding: 2rem;
+    }
+    .photography-types {
+      padding: 6rem 0;
+      background-color: #faf9f8;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .photography-types::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(circle at 10% 10%, rgba(255, 240, 245, 0.8) 0%, transparent 60%);
+      z-index: 0;
+    }
+    
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .section-heading {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    
+    .section-heading h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-heading h2::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4rem;
+      height: 3px;
+      background: linear-gradient(to right, #f87171, #2563eb);
+      border-radius: 3px;
+    }
+    
+    .section-heading p {
+      font-size: 1.2rem;
+      color: #6b7280;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .type-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2.5rem;
+    }
+    
+    .type-card {
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      background: white;
+      transition: all 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .type-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-image-container {
+      position: relative;
+      overflow: hidden;
+      height: 260px;
+    }
+    
+    .type-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease, filter 0.6s ease;
+    }
+    
+    .type-card:hover img {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+    }
+    
+    .image-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 30%;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .type-card:hover .image-overlay {
+      opacity: 1;
+    }
+    
+    .type-card-content {
+      padding: 2rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .type-card-content h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #111827;
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+      position: relative;
+      padding-bottom: 0.75rem;
+    }
+    
+    .type-card-content h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 2.5rem;
+      height: 2px;
+      background: linear-gradient(to right, #f87171, #2563eb);
+      transition: width 0.3s ease;
+    }
+    
+    .type-card:hover h3::after {
+      width: 3.5rem;
+    }
+    
+    .type-card-content p {
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+    
+    .learn-more-link {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      transition: all 0.3s ease;
+      align-self: flex-start;
+      position: relative;
+    }
+    
+    .learn-more-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #2563eb;
+      transition: width 0.3s ease;
+    }
+    
+    .learn-more-link:hover {
+      color: #1d4ed8;
+    }
+    
+    .learn-more-link:hover::after {
+      width: 100%;
+    }
+    
+    .arrow {
+      display: inline-block;
+      transition: transform 0.3s ease;
+      margin-left: 0.25rem;
+    }
+    
+    .learn-more-link:hover .arrow {
+      transform: translateX(6px);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .type-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+      }
+      
+      .section-heading h2 {
+        font-size: 2.25rem;
+      }
+      
+      .card-image-container {
+        height: 220px;
+      }
+    }
+   
+    /* Modern styling for contact section */
+    .contact-section {
+      padding: 6rem 1rem;
+      background-color: #f9fafb;
+      background-image: 
+        radial-gradient(circle at 0% 0%, rgba(210, 225, 255, 0.5) 0%, transparent 40%),
+        radial-gradient(circle at 100% 80%, rgba(255, 222, 238, 0.4) 0%, transparent 40%);
+      position: relative;
+    }
+  
+    .container {
+      max-width: 72rem;
+      margin: 0 auto;
+    }
+  
+    .section-heading {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+  
+    .section-heading h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+  
+    .section-heading h2::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4rem;
+      height: 3px;
+      background: linear-gradient(to right, #f87171, #2563eb);
+      border-radius: 3px;
+    }
+  
+    .section-heading p {
+      font-size: 1.2rem;
+      color: #6b7280;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  
+    .contact-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3rem;
+    }
+  
+    .contact-info {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+  
+    .info-card {
+      background-color: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      display: flex;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+  
+    .info-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+    }
+  
+    .info-icon {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+      border-radius: 12px;
+      margin-right: 1rem;
+      color: #2563eb;
+      flex-shrink: 0;
+    }
+  
+    .info-content {
+      flex: 1;
+    }
+  
+    .info-content h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #111827;
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+  
+    .info-content p {
+      color: #6b7280;
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+  
+    .info-content a {
+      color: #2563eb;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+  
+    .info-content a:hover {
+      color: #1d4ed8;
+      text-decoration: underline;
+    }
+  
+    .contact-form {
+      flex: 1;
+      min-width: 300px;
+    }
+  
+    .form-container {
+      background-color: white;
+      border-radius: 1rem;
+      padding: 2.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+  
+    .form-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(to right, #f87171, #2563eb);
+    }
+  
+    .messages {
+      margin-bottom: 1.5rem;
+    }
+  
+    .message {
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background-color: #d1e7dd;
+      border-radius: 0.5rem;
+      position: relative;
+      animation: slideDown 0.3s ease forwards;
+    }
+  
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+  
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 0.5rem;
+    }
+  
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background-color: #f9fafb;
+      border: 2px solid #e5e7eb;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+  
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #93c5fd;
+      background-color: #fff;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    }
+  
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #9ca3af;
+    }
+  
+    .error {
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+  
+    .submit-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: linear-gradient(to right, #2563eb, #3b82f6);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+  
+    .submit-button svg {
+      transition: transform 0.3s ease;
+    }
+  
+    .submit-button:hover {
+      background: linear-gradient(to right, #1d4ed8, #2563eb);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5);
+    }
+  
+    .submit-button:hover svg {
+      transform: translateX(4px);
+    }
+  
+    .submit-button:focus {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.4);
+    }
+  
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .section-heading h2 {
+        font-size: 2.25rem;
+      }
+      
+      .contact-container {
+        gap: 2rem;
+      }
+      
+      .form-container {
+        padding: 1.5rem;
+      }
+    }
+  
+    
+    .testimonials {
+      background-color: white;
+      padding: 4rem 1rem;
+    }
+    
+    .testimonials-container {
+      max-width: 72rem;
+      margin: 0 auto;
+    }
+    
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+      .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    .testimonial-card {
+      background-color: #f3f4f6;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      position: relative;
+    }
+    
+    .testimonial-content {
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+    
+    .testimonial-author {
+      font-weight: 600;
+    }
+    
+    .section-heading {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .section-heading h2 {
+      font-size: 2rem;
+      color: #1e3a8a;
+      margin-bottom: 0.5rem;
+    }
+    
+    .section-heading p {
+      color: #6b7280;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .nav-menu {
+      display: flex;
+      gap: 1.5rem;
+    }
+    
+    .nav-link {
+      color: #4b5563;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      color: #1a202c;
+    }
+    /* Fix for date input text color in browsers */
+    input[type="date"] {
+      color-scheme: dark;
+    }
+    
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+      opacity: 0.5;
+      cursor: pointer;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      #save-the-date .save-date-container > div:last-child {
+        padding: 2rem 1.5rem;
+      }
+      
+      #save-the-date .section-heading h2 {
+        font-size: 2.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav style="background-color: rgba(10, 10, 20, 0.8); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); position: sticky; top: 0; z-index: 100; padding: 0.75rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+    <div style="max-width: 82rem; margin: 0 auto; padding: 0 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0;">
+        <!-- Elegant Logo -->
+        <div style="font-size: 1.75rem; letter-spacing: 2px; color: white; text-transform: uppercase; font-weight: 300; position: relative;">
+          <a href="{% url 'base' %}" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+            <span style="position: relative; z-index: 1;">
+              <span style="color: #f0f0f0;">Photo</span><span style="color: #d4af37;">Studio</span>
+            </span>
+            <!-- Decorative element -->
+            <span style="height: 8px; width: 8px; background-color: #d4af37; border-radius: 50%; margin-left: 10px; position: relative; top: -15px;"></span>
+          </a>
+        </div>
+  
+        <!-- Stylish Navigation Links -->
+        <div class="nav-menu" style="display: flex; gap: 1rem; align-items: center;">
+          <a href="{% url 'base' %}" class="nav-link" style="text-decoration: none; color: #e5e7eb; font-weight: 400; letter-spacing: 1px; text-transform: uppercase; font-size: 0.85rem; padding: 0.5rem 1rem; position: relative; transition: all 0.3s ease;" onmouseover="this.style.color='#ffffff';" onmouseout="this.style.color='#e5e7eb';">
+            <span style="position: relative; z-index: 1;">Home</span>
+            <span style="position: absolute; bottom: 0; left: 50%; width: 0; height: 1px; background-color: #d4af37; transition: all 0.3s ease; transform: translateX(-50%);" onmouseover="this.style.width='80%';" onmouseout="this.style.width='0';"></span>
+          </a>
+          <a href="#wedding-photography" class="nav-link" style="text-decoration: none; color: #e5e7eb; font-weight: 400; letter-spacing: 1px; text-transform: uppercase; font-size: 0.85rem; padding: 0.5rem 1rem; position: relative; transition: all 0.3s ease;" onmouseover="this.style.color='#ffffff';" onmouseout="this.style.color='#e5e7eb';">
+            <span style="position: relative; z-index: 1;">Wedding</span>
+            <span style="position: absolute; bottom: 0; left: 50%; width: 0; height: 1px; background-color: #d4af37; transition: all 0.3s ease; transform: translateX(-50%);" onmouseover="this.style.width='80%';" onmouseout="this.style.width='0';"></span>
+          </a>
+          <a href="#save-the-date" class="nav-link" style="text-decoration: none; color: #e5e7eb; font-weight: 400; letter-spacing: 1px; text-transform: uppercase; font-size: 0.85rem; padding: 0.5rem 1rem; position: relative; transition: all 0.3s ease;" onmouseover="this.style.color='#ffffff';" onmouseout="this.style.color='#e5e7eb';">
+            <span style="position: relative; z-index: 1;">Save Date</span>
+            <span style="position: absolute; bottom: 0; left: 50%; width: 0; height: 1px; background-color: #d4af37; transition: all 0.3s ease; transform: translateX(-50%);" onmouseover="this.style.width='80%';" onmouseout="this.style.width='0';"></span>
+          </a>
+          <a href="#testimonials" class="nav-link" style="text-decoration: none; color: #e5e7eb; font-weight: 400; letter-spacing: 1px; text-transform: uppercase; font-size: 0.85rem; padding: 0.5rem 1rem; position: relative; transition: all 0.3s ease;" onmouseover="this.style.color='#ffffff';" onmouseout="this.style.color='#e5e7eb';">
+            <span style="position: relative; z-index: 1;">Testimonials</span>
+            <span style="position: absolute; bottom: 0; left: 50%; width: 0; height: 1px; background-color: #d4af37; transition: all 0.3s ease; transform: translateX(-50%);" onmouseover="this.style.width='80%';" onmouseout="this.style.width='0';"></span>
+          </a>
+          <a href="#contact" class="nav-link" style="text-decoration: none; color: #e5e7eb; font-weight: 400; letter-spacing: 1px; text-transform: uppercase; font-size: 0.85rem; padding: 0.5rem 1rem; position: relative; transition: all 0.3s ease;" onmouseover="this.style.color='#ffffff';" onmouseout="this.style.color='#e5e7eb';">
+            <span style="position: relative; z-index: 1;">Contact</span>
+            <span style="position: absolute; bottom: 0; left: 50%; width: 0; height: 1px; background-color: #d4af37; transition: all 0.3s ease; transform: translateX(-50%);" onmouseover="this.style.width='80%';" onmouseout="this.style.width='0';"></span>
+          </a>
+          <!-- Elegant Product Button -->
+          <a href="{% url 'product' %}" class="nav-link" style="background: linear-gradient(135deg, #d4af37, #f2d572); color: #000; padding: 0.7rem 1.5rem; border-radius: 0.25rem; text-decoration: none; font-weight: 500; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; transition: all 0.3s ease; margin-left: 0.5rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(212, 175, 55, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(212, 175, 55, 0.2)';">Products</a>
+        </div>
+  
+        <!-- Stylish User Actions -->
+        <ul style="display: flex; gap: 1.5rem; align-items: center; list-style: none; margin: 0; padding: 0;">
+          {% if user.is_authenticated %}
+            <li>
+              <a href="{% url 'profile' %}" class="profile-button" style="text-decoration: none; color: #e5e7eb; font-weight: 400; letter-spacing: 1px; text-transform: uppercase; font-size: 0.85rem; display: flex; align-items: center; transition: color 0.3s ease;" onmouseover="this.style.color='#ffffff';" onmouseout="this.style.color='#e5e7eb';">
+                <!-- User icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                Profile
+              </a>
+            </li>
+            <li>
+              <div style="width: 1px; height: 20px; background-color: rgba(255, 255, 255, 0.2);"></div>
+            </li>
+            <li>
+              <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="logout-button" style="background: none; border: none; color: #ef4444; font-weight: 400; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; font-size: 0.85rem; display: flex; align-items: center; padding: 0; transition: color 0.3s ease;" onmouseover="this.style.color='#f87171';" onmouseout="this.style.color='#ef4444';">
+                  <!-- Logout icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  Logout
+                </button>
+              </form>
+            </li>
+          {% else %}
+            <!-- Admin Login Button -->
+            <li>
+              <a href="{% url 'admin:login' %}" class="admin-login-button" style="text-decoration: none; background: rgba(255, 255, 255, 0.1); color: white; font-weight: 400; letter-spacing: 1px; text-transform: uppercase; font-size: 0.85rem; display: flex; align-items: center; padding: 0.5rem 1.2rem; border-radius: 0.25rem; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(255, 255, 255, 0.2)';" onmouseout="this.style.backgroundColor='rgba(255, 255, 255, 0.1)';">
+                <!-- Admin icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
+                </svg>
+                Admin
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'login' %}" class="login-button" style="text-decoration: none; color: #e5e7eb; font-weight: 400; letter-spacing: 1px; text-transform: uppercase; font-size: 0.85rem; display: flex; align-items: center; transition: color 0.3s ease; border: 1px solid rgba(255, 255, 255, 0.2); padding: 0.5rem 1.2rem; border-radius: 0.25rem;" onmouseover="this.style.color='#ffffff'; this.style.borderColor='rgba(255, 255, 255, 0.4)';" onmouseout="this.style.color='#e5e7eb'; this.style.borderColor='rgba(255, 255, 255, 0.2)';">
+                <!-- Login icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                </svg>
+                Login
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'register' %}" class="register-button" style="text-decoration: none; background: rgba(255, 255, 255, 0.1); color: white; font-weight: 400; letter-spacing: 1px; text-transform: uppercase; font-size: 0.85rem; display: flex; align-items: center; padding: 0.5rem 1.2rem; border-radius: 0.25rem; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(255, 255, 255, 0.2)';" onmouseout="this.style.backgroundColor='rgba(255, 255, 255, 0.1)';">
+                <!-- Register icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.25rem; height: 1.25rem; margin-right: 0.5rem;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                </svg>
+                Register
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section" data-aos="fade-up">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 style="font-size: 2.5rem; margin-bottom: 1rem;" data-aos="fade-right" data-aos-delay="200">Capturing Your Perfect Wedding Day</h1>
+      <p style="font-size: 1.25rem; margin-bottom: 2rem;" data-aos="fade-left" data-aos-delay="400">Professional photography services to preserve your cherished memories for a lifetime</p>
+      <a href="#save-the-date" style="display: inline-block; background-color: #2563eb; color: white; padding: 0.75rem 1.5rem; border-radius: 0.375rem; text-decoration: none; font-weight: 500;" data-aos="zoom-in" data-aos-delay="600">Book Your Date</a>
+    </div>
+  </section>
+
+  {% block content %}
+
+  <!-- Wedding Photography Types -->
+  <section id="wedding-photography" class="photography-types">
+    <div class="container">
+      <div class="section-heading" data-aos="fade-right">
+        <h2>Wedding Photography Styles</h2>
+        <p>Choose the perfect photography style to capture your special day exactly how you envision it</p>
+      </div>
+      
+      <div class="type-grid">
+        <div class="type-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="card-image-container">
+            <img src="https://images.pexels.com/photos/16719179/pexels-photo-16719179/free-photo-of-people-throwing-rice-on-the-newlyweds.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Traditional Wedding Photography" />
+            <div class="image-overlay"></div>
+          </div>
+          <div class="type-card-content">
+            <h3>Traditional Photography</h3>
+            <p>Classic, posed photographs that capture formal moments with family and friends. Timeless images that will never go out of style.</p>
+            <a href="#save-the-date" class="learn-more-link">Learn More <span class="arrow">→</span></a>
+          </div>
+        </div>
+        
+        <div class="type-card" data-aos="fade-up" data-aos-delay="400">
+          <div class="card-image-container">
+            <img src="https://images.pexels.com/photos/16953201/pexels-photo-16953201/free-photo-of-a-man-holding-a-camera-in-his-hand.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Photojournalistic Wedding Photography" />
+            <div class="image-overlay"></div>
+          </div>
+          <div class="type-card-content">
+            <h3>Photojournalistic</h3>
+            <p>Candid, documentary-style photographs that tell the authentic story of your wedding day as it naturally unfolds.</p>
+            <a href="#save-the-date" class="learn-more-link">Learn More <span class="arrow">→</span></a>
+          </div>
+        </div>
+        
+        <div class="type-card" data-aos="fade-up" data-aos-delay="600">
+          <div class="card-image-container">
+            <img src="https://images.pexels.com/photos/3724836/pexels-photo-3724836.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Artistic Wedding Photography" />
+            <div class="image-overlay"></div>
+          </div>
+          <div class="type-card-content">
+            <h3>Artistic</h3>
+            <p>Creative, editorial-style images with unique compositions, lighting, and perspectives to create fine-art quality photographs.</p>
+            <a href="#save-the-date" class="learn-more-link">Learn More <span class="arrow">→</span></a>
+          </div>
+        </div>
+        
+        <div class="type-card" data-aos="fade-up" data-aos-delay="800">
+          <div class="card-image-container">
+            <img src="https://images.pexels.com/photos/30893445/pexels-photo-30893445/free-photo-of-romantic-outdoor-wedding-on-scenic-overlook.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Aerial Wedding Photography" />
+            <div class="image-overlay"></div>
+          </div>
+          <div class="type-card-content">
+            <h3>Aerial Photography</h3>
+            <p>Stunning drone photography capturing breathtaking aerial views of your venue and celebration from unique perspectives.</p>
+            <a href="#save-the-date" class="learn-more-link">Learn More <span class="arrow">→</span></a>
+          </div>
+        </div>
+        
+        <div class="type-card" data-aos="fade-up" data-aos-delay="1000">
+          <div class="card-image-container">
+            <img src="https://images.pexels.com/photos/30834090/pexels-photo-30834090/free-photo-of-cozy-library-interior-with-reading-woman.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Portrait-focused Wedding Photography" />
+            <div class="image-overlay"></div>
+          </div>
+          <div class="type-card-content">
+            <h3>Portrait-focused</h3>
+            <p>Emphasizing beautiful, intimate portraits of the couple and wedding party with expert posing and direction.</p>
+            <a href="#save-the-date" class="learn-more-link">Learn More <span class="arrow">→</span></a>
+          </div>
+        </div>
+        
+        <div class="type-card" data-aos="fade-up" data-aos-delay="1200">
+          <div class="card-image-container">
+            <img src="https://images.pexels.com/photos/30841876/pexels-photo-30841876/free-photo-of-intimate-black-and-white-portrait-of-mother-and-child.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Black and White Wedding Photography" />
+            <div class="image-overlay"></div>
+          </div>
+          <div class="type-card-content">
+            <h3>Black & White</h3>
+            <p>Timeless monochrome images that emphasize emotion, contrast, and the classic elegance of your wedding day.</p>
+            <a href="#save-the-date" class="learn-more-link">Learn More <span class="arrow">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Save the Date Section -->
+<section id="save-the-date" class="save-date-section" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4)), url('/static/images/wedding-bg.jpg'); background-size: cover; background-position: center; background-attachment: fixed; padding: 6rem 0; color: #fff; position: relative; overflow: hidden;">
+  <!-- Decorative elements -->
+  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('/static/images/pattern-overlay.png'); opacity: 0.1; pointer-events: none;"></div>
+  
+  <div class="save-date-container" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 10;">
+    <!-- Elegant divider -->
+    <div style="text-align: center; margin-bottom: 3rem;">
+      <div style="display: inline-block;">
+        <div style="width: 80px; height: 1px; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.7), transparent);"></div>
+        <div style="width: 120px; height: 1px; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8), transparent); margin: 4px 0;"></div>
+        <div style="width: 80px; height: 1px; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.7), transparent);"></div>
+      </div>
+    </div>
+    
+    <div class="section-heading" style="text-align: center; margin-bottom: 4rem;" data-aos="fade-right">
+      <h2 style="font-size: 3rem; font-weight: 300; margin-bottom: 1rem; color: #fff; letter-spacing: 3px; text-transform: uppercase;">Save Your Wedding Date</h2>
+      <p style="font-size: 1.1rem; max-width: 700px; margin: 0 auto; line-height: 1.8; color: rgba(255, 255, 255, 0.9); font-weight: 300;">Reserve your preferred photographer for your special day. Early booking is recommended, especially for peak wedding season.</p>
+    </div>
+    
+    <div style="background-color: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.15); padding: 3rem; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);">
+      <form class="save-date-form" data-aos="fade-up" data-aos-delay="200" method="post" action="{% url 'save_the_date' %}" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+        {% csrf_token %}
+        
+        <div class="form-group" style="position: relative;">
+          <label for="id_couples_names" style="display: block; margin-bottom: 0.75rem; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; color: rgba(255, 255, 255, 0.8);">Couple's Names</label>
+          <input type="text" id="id_couples_names" name="couples_names" placeholder="e.g., Amanda & Michael" required style="width: 100%; padding: 1rem 1.25rem; background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 5px; color: white; font-size: 1rem; transition: all 0.3s ease; outline: none;" onFocus="this.style.borderColor='rgba(255, 255, 255, 0.5)'; this.style.boxShadow='0 0 0 3px rgba(255, 255, 255, 0.1)';" onBlur="this.style.borderColor='rgba(255, 255, 255, 0.2)'; this.style.boxShadow='none';">
+        </div>
+        
+        <div class="form-group" style="position: relative;">
+          <label for="id_email" style="display: block; margin-bottom: 0.75rem; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; color: rgba(255, 255, 255, 0.8);">Email Address</label>
+          <input type="email" id="id_email" name="email" placeholder="your@email.com" required style="width: 100%; padding: 1rem 1.25rem; background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 5px; color: white; font-size: 1rem; transition: all 0.3s ease; outline: none;" onFocus="this.style.borderColor='rgba(255, 255, 255, 0.5)'; this.style.boxShadow='0 0 0 3px rgba(255, 255, 255, 0.1)';" onBlur="this.style.borderColor='rgba(255, 255, 255, 0.2)'; this.style.boxShadow='none';">
+        </div>
+        
+        <div class="form-group" style="position: relative;">
+          <label for="id_phone" style="display: block; margin-bottom: 0.75rem; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; color: rgba(255, 255, 255, 0.8);">Phone Number</label>
+          <input type="tel" id="id_phone" name="phone" placeholder="(123) 456-7890" style="width: 100%; padding: 1rem 1.25rem; background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 5px; color: white; font-size: 1rem; transition: all 0.3s ease; outline: none;" onFocus="this.style.borderColor='rgba(255, 255, 255, 0.5)'; this.style.boxShadow='0 0 0 3px rgba(255, 255, 255, 0.1)';" onBlur="this.style.borderColor='rgba(255, 255, 255, 0.2)'; this.style.boxShadow='none';">
+        </div>
+        
+        <div class="form-group" style="position: relative;">
+          <label for="id_wedding_date" style="display: block; margin-bottom: 0.75rem; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; color: rgba(255, 255, 255, 0.8);">Wedding Date</label>
+          <input type="date" id="id_wedding_date" name="wedding_date" required style="width: 100%; padding: 1rem 1.25rem; background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 5px; color: white; font-size: 1rem; transition: all 0.3s ease; outline: none;" onFocus="this.style.borderColor='rgba(255, 255, 255, 0.5)'; this.style.boxShadow='0 0 0 3px rgba(255, 255, 255, 0.1)';" onBlur="this.style.borderColor='rgba(255, 255, 255, 0.2)'; this.style.boxShadow='none';">
+        </div>
+        
+        <div class="form-group" style="position: relative;">
+          <label for="id_venue" style="display: block; margin-bottom: 0.75rem; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; color: rgba(255, 255, 255, 0.8);">Wedding Venue (if known)</label>
+          <input type="text" id="id_venue" name="venue" placeholder="Venue name and city" style="width: 100%; padding: 1rem 1.25rem; background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 5px; color: white; font-size: 1rem; transition: all 0.3s ease; outline: none;" onFocus="this.style.borderColor='rgba(255, 255, 255, 0.5)'; this.style.boxShadow='0 0 0 3px rgba(255, 255, 255, 0.1)';" onBlur="this.style.borderColor='rgba(255, 255, 255, 0.2)'; this.style.boxShadow='none';">
+        </div>
+        
+        <div class="form-group" style="position: relative;">
+          <label for="id_photography_style" style="display: block; margin-bottom: 0.75rem; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; color: rgba(255, 255, 255, 0.8);">Preferred Photography Style</label>
+          <select id="id_photography_style" name="photography_style" style="width: 100%; padding: 1rem 1.25rem; background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 5px; color: white; font-size: 1rem; transition: all 0.3s ease; outline: none; appearance: none; cursor: pointer;" onFocus="this.style.borderColor='rgba(255, 255, 255, 0.5)'; this.style.boxShadow='0 0 0 3px rgba(255, 255, 255, 0.1)';" onBlur="this.style.borderColor='rgba(255, 255, 255, 0.2)'; this.style.boxShadow='none';">
+            <option value="" style="background-color: #1a1a1a; color: white;">Select a style...</option>
+            <option value="traditional" style="background-color: #1a1a1a; color: white;">Traditional</option>
+            <option value="photojournalistic" style="background-color: #1a1a1a; color: white;">Photojournalistic</option>
+            <option value="artistic" style="background-color: #1a1a1a; color: white;">Artistic</option>
+            <option value="aerial" style="background-color: #1a1a1a; color: white;">Aerial</option>
+            <option value="portrait" style="background-color: #1a1a1a; color: white;">Portrait-focused</option>
+            <option value="black_and_white" style="background-color: #1a1a1a; color: white;">Black & White</option>
+          </select>
+          <!-- Custom dropdown arrow -->
+          <div style="position: absolute; right: 1.25rem; top: calc(50% + 0.75rem); transform: translateY(-50%); pointer-events: none;">
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L6 6L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        
+        <div class="form-group" style="position: relative;">
+          <label for="id_budget" style="display: block; margin-bottom: 0.75rem; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; color: rgba(255, 255, 255, 0.8);">Approximate Budget</label>
+          <select id="id_budget" name="budget" style="width: 100%; padding: 1rem 1.25rem; background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 5px; color: white; font-size: 1rem; transition: all 0.3s ease; outline: none; appearance: none; cursor: pointer;" onFocus="this.style.borderColor='rgba(255, 255, 255, 0.5)'; this.style.boxShadow='0 0 0 3px rgba(255, 255, 255, 0.1)';" onBlur="this.style.borderColor='rgba(255, 255, 255, 0.2)'; this.style.boxShadow='none';">
+            <option value="" style="background-color: #1a1a1a; color: white;">Select a range...</option>
+            <option value="1000-2000" style="background-color: #1a1a1a; color: white;">$1,000 - $2,000</option>
+            <option value="2000-3000" style="background-color: #1a1a1a; color: white;">$2,000 - $3,000</option>
+            <option value="3000-4000" style="background-color: #1a1a1a; color: white;">$3,000 - $4,000</option>
+            <option value="4000-5000" style="background-color: #1a1a1a; color: white;">$4,000 - $5,000</option>
+            <option value="5000+" style="background-color: #1a1a1a; color: white;">$5,000+</option>
+          </select>
+          <!-- Custom dropdown arrow -->
+          <div style="position: absolute; right: 1.25rem; top: calc(50% + 0.75rem); transform: translateY(-50%); pointer-events: none;">
+            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L6 6L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        
+        <div class="form-group" style="position: relative; grid-column: 1 / -1;">
+          <label for="id_message" style="display: block; margin-bottom: 0.75rem; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; color: rgba(255, 255, 255, 0.8);">Additional Details</label>
+          <textarea id="id_message" name="message" rows="4" placeholder="Tell us about your vision for your wedding photography..." style="width: 100%; padding: 1rem 1.25rem; background-color: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 5px; color: white; font-size: 1rem; transition: all 0.3s ease; outline: none; resize: vertical;" onFocus="this.style.borderColor='rgba(255, 255, 255, 0.5)'; this.style.boxShadow='0 0 0 3px rgba(255, 255, 255, 0.1)';" onBlur="this.style.borderColor='rgba(255, 255, 255, 0.2)'; this.style.boxShadow='none';"></textarea>
+        </div>
+        
+        <div style="grid-column: 1 / -1; text-align: center; margin-top: 1rem;">
+          <button type="submit" class="submit-button" style="background: linear-gradient(135deg, #d4af37, #f2d572); color: #000; font-weight: 600; font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; padding: 1.1rem 3rem; border: none; border-radius: 5px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 15px 30px rgba(212, 175, 55, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(212, 175, 55, 0.2)';">
+            <span style="position: relative; z-index: 1;">Reserve Your Date</span>
+          </button>
+        </div>
+      </form>
+    </div>
+    
+    <!-- Bottom decorative element -->
+    <div style="text-align: center; margin-top: 4rem;">
+      <div style="display: inline-block;">
+        <div style="width: 80px; height: 1px; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);"></div>
+        <div style="width: 150px; height: 1px; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent); margin: 5px 0;"></div>
+        <div style="width: 80px; height: 1px; background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="testimonials" data-aos="fade-up">
+    <div class="testimonials-container">
+      <div class="section-heading" data-aos="fade-right">
+        <h2>What Our Couples Say</h2>
+        <p>Hear from couples who trusted us to capture their special day</p>
+      </div>
+      
+      <div class="testimonials-grid">
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="testimonial-content">
+            "PhotoStudio captured our wedding day perfectly! The traditional photography style was exactly what we wanted, and the photos will be treasured for generations to come."
+          </div>
+          <div class="testimonial-author">— Sarah & James, married June 2023</div>
+        </div>
+        
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="400">
+          <div class="testimonial-content">
+            "We chose the photojournalistic package and couldn't be happier. Our photographer caught so many candid moments that we would have missed otherwise. Each photo tells a story!"
+          </div>
+          <div class="testimonial-author">— Lisa & David, married August 2023</div>
+        </div>
+        
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="600">
+          <div class="testimonial-content">
+            "The aerial photography of our beach wedding was breathtaking! Our friends and family were amazed by the unique perspectives and stunning views of our venue."
+          </div>
+          <div class="testimonial-author">— Emma & Chris, married September 2023</div>
+        </div>
+        
+        <div class="testimonial-card" data-aos="fade-up" data-aos-delay="800">
+          <div class="testimonial-content">
+            "We loved the artistic approach - our wedding album looks like it belongs in a magazine! The creative angles and lighting made even simple moments look extraordinary."
+          </div>
+          <div class="testimonial-author">— Morgan & Alex, married October 2023</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact-section" data-aos="fade-up">
+  <div class="container">
+    <div class="section-heading" data-aos="fade-right">
+      <h2>Get In Touch</h2>
+      <p>Have questions? Our team of professional photographers is here to help.</p>
+    </div>
+
+    <div class="contact-container">
+      <div class="contact-info" data-aos="fade-right" data-aos-delay="200">
+        <div class="info-card">
+          <div class="info-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </div>
+          <div class="info-content">
+            <h3>Studio Location</h3>
+            <p>123 Wedding Lane</p>
+            <p>Suite 456</p>
+            <p>Photography City, PC 12345</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <div class="info-content">
+            <h3>Contact Information</h3>
+            <p>Email: <a href="mailto:info@photostudio.com">info@photostudio.com</a></p>
+            <p>Phone: <a href="tel:+11234567890">(123) 456-7890</a></p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="info-content">
+            <h3>Studio Hours</h3>
+            <p>Monday - Friday: 9am - 6pm</p>
+            <p>Saturday: 10am - 4pm</p>
+            <p>Sunday: By appointment only</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form" data-aos="fade-left" data-aos-delay="400">
+        <div class="form-container">
+          {% if messages %}
+            <div class="messages">
+              {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <form method="post" action="{% url 'contact' %}">
+            {% csrf_token %}
+
+            <div class="form-group">
+              <label for="id_name">Your Name</label>
+              <input type="text" id="id_name" name="name" placeholder="Your Name" required>
+              {% if form.name.errors %}
+                <div class="error">{{ form.name.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div class="form-group">
+              <label for="id_email">Email Address</label>
+              <input type="email" id="id_email" name="email" placeholder="your@email.com" required>
+              {% if form.email.errors %}
+                <div class="error">{{ form.email.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div class="form-group">
+              <label for="id_subject">Subject</label>
+              <input type="text" id="id_subject" name="subject" placeholder="Subject" required>
+              {% if form.subject.errors %}
+                <div class="error">{{ form.subject.errors }}</div>
+              {% endif %}
+            </div>
+
+            <div class="form-group">
+              <label for="id_message">Message</label>
+              <textarea id="id_message" name="message" rows="4" placeholder="Your message..." required></textarea>
+              {% if form.message.errors %}
+                <div class="error">{{ form.message.errors }}</div>
+              {% endif %}
+            </div>
+
+            <button type="submit" class="submit-button">
+              <span>Send Message</span>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  {% endblock %}
+
+  <!-- Footer -->
+  <footer style="background-color: #111827; color: white; padding: 2rem 0;">
+    <div style="max-width: 72rem; margin: 0 auto; padding: 0 1rem;">
+      <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; margin-bottom: 2rem;">
+        <div style="flex: 1; min-width: 250px;">
+          <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.25rem;">PhotoStudio</h3>
+          <p style="color: #9ca3af; line-height: 1.5;">We specialize in capturing the beauty, emotion, and unique moments of your wedding day with artistic vision and technical excellence.</p>
+        </div>
+        
+        <div style="flex: 1; min-width: 250px;">
+          <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.25rem;">Photography Services</h3>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #9ca3af; text-decoration: none; transition: color 0.3s ease;">Traditional Photography</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #9ca3af; text-decoration: none; transition: color 0.3s ease;">Photojournalistic Style</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #9ca3af; text-decoration: none; transition: color 0.3s ease;">Artistic Photography</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #9ca3af; text-decoration: none; transition: color 0.3s ease;">Aerial Photography</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #9ca3af; text-decoration: none; transition: color 0.3s ease;">Portrait-focused</a></li>
+            <li><a href="#" style="color: #9ca3af; text-decoration: none; transition: color 0.3s ease;">Black & White</a></li>
+          </ul>
+        </div>
+        
+        <div style="flex: 1; min-width: 250px;">
+          <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.25rem;">Quick Links</h3>
+          <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: #9ca3af; text-decoration: none; transition: color 0.3s ease;">Home</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="#wedding-photography" style="color: #9ca3af; text-decoration: none; transition: color 0.3s ease;">Wedding Photography</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="#save-the-date" style="color: #9ca3af; text-decoration: none; transition: color 0.3s ease;">Save the Date</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="#testimonials" style="color: #9ca3af; text-decoration: none; transition: color 0.3s ease;">Testimonials</a></li>
+            <li><a href="#contact" style="color: #9ca3af; text-decoration: none; transition: color 0.3s ease;">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div style="text-align: center; padding-top: 2rem; border-top: 1px solid #374151;">
+        <p>&copy; 2023 PhotoStudio. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AOS JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    // Initialize AOS
+    AOS.init({
+      duration: 1000, // Animation duration in milliseconds
+      once: true, // Whether animation should happen only once
+    });
+  </script>
+</body>
+</html>
